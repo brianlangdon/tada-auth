@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 
-	database "github.com/brianlangdon/tada-auth/server/internal/pkg/db/mysql"
+	database "github.com/brianlangdon/tada-auth/internal/pkg/db/mysql"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -12,6 +12,7 @@ type User struct {
 	ID       string `json:"id"`
 	Username string `json:"name"`
 	Password string `json:"password"`
+	Email    string `json:"email"`
 }
 
 func (user *User) Create() {
@@ -28,11 +29,11 @@ func (user *User) Create() {
 }
 
 func (user *User) Authenticate() bool {
-	statement, err := database.Db.Prepare("select Password from Users WHERE Username = ?")
+	statement, err := database.Db.Prepare("select Password from Users WHERE Email = ?")
 	if err != nil {
 		log.Fatal(err)
 	}
-	row := statement.QueryRow(user.Username)
+	row := statement.QueryRow(user.Email)
 
 	var hashedPassword string
 	err = row.Scan(&hashedPassword)

@@ -5,14 +5,12 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/99designs/gqlgen/example/starwars/generated"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/brianlangdon/tada-auth/graph"
 	"github.com/brianlangdon/tada-auth/internal/auth"
+	database "github.com/brianlangdon/tada-auth/internal/pkg/db/mysql"
 	"github.com/go-chi/chi"
-
-	database "github.com/brianlangdon/tada-auth/server/internal/pkg/db/mysql"
 )
 
 const defaultPort = "8080"
@@ -31,7 +29,7 @@ func main() {
 	defer database.CloseDB()
 	database.Migrate()
 
-	server := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
+	server := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
 	router.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	router.Handle("/query", server)
 

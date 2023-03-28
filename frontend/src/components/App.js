@@ -13,7 +13,7 @@ const App = () => (
       <Routes>
         <Route
           path="/"
-          element={<Navigate replace to="/new/1" />}
+          element={<Navigate replace to="/login" />}
         />
         <Route
           path="/create"

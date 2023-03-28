@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/brianlangdon/tada-auth/server/internal/users"
-	"github.com/brianlangdon/tada-auth/server/pkg/jwt"
+	"github.com/brianlangdon/tada-auth/internal/users"
+	"github.com/brianlangdon/tada-auth/pkg/jwt"
 )
 
 var userCtxKey = &contextKey{"user"}
