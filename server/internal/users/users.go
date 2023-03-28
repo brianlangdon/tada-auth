@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"log"
 
-	database "github.com/brianlangdon/tada-auth/internal/pkg/db/mysql"
+	database "github.com/brianlangdon/tada-auth/server/internal/pkg/db/mysql"
 	"golang.org/x/crypto/bcrypt"
 )
 

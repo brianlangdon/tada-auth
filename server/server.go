@@ -5,11 +5,11 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/brianlangdon/tada-auth/graph"
-	"github.com/brianlangdon/tada-auth/graph/generated"
-	"github.com/brianlangdon/tada-auth/internal/auth"
-	_ "github.com/brianlangdon/tada-auth/internal/auth"
-	database "github.com/brianlangdon/tada-auth/internal/pkg/db/mysql"
+	"github.com/brianlangdon/tada-auth/server/graph"
+	"github.com/brianlangdon/tada-auth/server/graph/generated"
+	"github.com/brianlangdon/tada-auth/server/internal/auth"
+	_ "github.com/brianlangdon/tada-auth/server/internal/auth"
+	database "github.com/brianlangdon/tada-auth/server/internal/pkg/db/mysql"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"

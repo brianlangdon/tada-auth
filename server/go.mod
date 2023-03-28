@@ -1,4 +1,4 @@
-module github.com/brianlangdon/tada-auth
+module github.com/brianlangdon/tada-auth/server
 
 go 1.19
 

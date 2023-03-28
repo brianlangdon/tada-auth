@@ -3,8 +3,8 @@ package links
 import (
 	"log"
 
-	database "github.com/brianlangdon/tada-auth/internal/pkg/db/mysql"
-	"github.com/brianlangdon/tada-auth/internal/users"
+	database "github.com/brianlangdon/tada-auth/server/internal/pkg/db/mysql"
+	"github.com/brianlangdon/tada-auth/server/internal/users"
 )
 
 // #1
