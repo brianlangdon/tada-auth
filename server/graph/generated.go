@@ -46,38 +46,44 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	DatingUser struct {
-		Gender   func(childComplexity int) int
-		ID       func(childComplexity int) int
-		Location func(childComplexity int) int
-		Match    func(childComplexity int) int
-		Picture  func(childComplexity int) int
-		Skills   func(childComplexity int) int
-		Title    func(childComplexity int) int
-		Username func(childComplexity int) int
+		FaveFramework func(childComplexity int) int
+		FaveLangauge  func(childComplexity int) int
+		FaveTool      func(childComplexity int) int
+		Gender        func(childComplexity int) int
+		ID            func(childComplexity int) int
+		Location      func(childComplexity int) int
+		Match         func(childComplexity int) int
+		Picture       func(childComplexity int) int
+		Title         func(childComplexity int) int
+		Username      func(childComplexity int) int
 	}
 
 	DetailUser struct {
-		Company  func(childComplexity int) int
-		Gender   func(childComplexity int) int
-		ID       func(childComplexity int) int
-		Location func(childComplexity int) int
-		Match    func(childComplexity int) int
-		Picture  func(childComplexity int) int
-		Skills   func(childComplexity int) int
-		Title    func(childComplexity int) int
-		Username func(childComplexity int) int
+		Company       func(childComplexity int) int
+		FaveFramework func(childComplexity int) int
+		FaveLangauge  func(childComplexity int) int
+		FaveTool      func(childComplexity int) int
+		Gender        func(childComplexity int) int
+		ID            func(childComplexity int) int
+		Location      func(childComplexity int) int
+		Match         func(childComplexity int) int
+		Picture       func(childComplexity int) int
+		Title         func(childComplexity int) int
+		Username      func(childComplexity int) int
 	}
 
 	FullUser struct {
-		Company  func(childComplexity int) int
-		Email    func(childComplexity int) int
-		Gender   func(childComplexity int) int
-		ID       func(childComplexity int) int
-		Location func(childComplexity int) int
-		Picture  func(childComplexity int) int
-		Skills   func(childComplexity int) int
-		Title    func(childComplexity int) int
-		Username func(childComplexity int) int
+		Company       func(childComplexity int) int
+		Email         func(childComplexity int) int
+		FaveFramework func(childComplexity int) int
+		FaveLangauge  func(childComplexity int) int
+		FaveTool      func(childComplexity int) int
+		Gender        func(childComplexity int) int
+		ID            func(childComplexity int) int
+		Location      func(childComplexity int) int
+		Picture       func(childComplexity int) int
+		Title         func(childComplexity int) int
+		Username      func(childComplexity int) int
 	}
 
 	Mutation struct {
@@ -131,6 +137,27 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	_ = ec
 	switch typeName + "." + field {
 
+	case "DatingUser.FaveFramework":
+		if e.complexity.DatingUser.FaveFramework == nil {
+			break
+		}
+
+		return e.complexity.DatingUser.FaveFramework(childComplexity), true
+
+	case "DatingUser.FaveLangauge":
+		if e.complexity.DatingUser.FaveLangauge == nil {
+			break
+		}
+
+		return e.complexity.DatingUser.FaveLangauge(childComplexity), true
+
+	case "DatingUser.FaveTool":
+		if e.complexity.DatingUser.FaveTool == nil {
+			break
+		}
+
+		return e.complexity.DatingUser.FaveTool(childComplexity), true
+
 	case "DatingUser.gender":
 		if e.complexity.DatingUser.Gender == nil {
 			break
@@ -166,13 +193,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.DatingUser.Picture(childComplexity), true
 
-	case "DatingUser.skills":
-		if e.complexity.DatingUser.Skills == nil {
-			break
-		}
-
-		return e.complexity.DatingUser.Skills(childComplexity), true
-
 	case "DatingUser.title":
 		if e.complexity.DatingUser.Title == nil {
 			break
@@ -193,6 +213,27 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.DetailUser.Company(childComplexity), true
+
+	case "DetailUser.FaveFramework":
+		if e.complexity.DetailUser.FaveFramework == nil {
+			break
+		}
+
+		return e.complexity.DetailUser.FaveFramework(childComplexity), true
+
+	case "DetailUser.FaveLangauge":
+		if e.complexity.DetailUser.FaveLangauge == nil {
+			break
+		}
+
+		return e.complexity.DetailUser.FaveLangauge(childComplexity), true
+
+	case "DetailUser.FaveTool":
+		if e.complexity.DetailUser.FaveTool == nil {
+			break
+		}
+
+		return e.complexity.DetailUser.FaveTool(childComplexity), true
 
 	case "DetailUser.gender":
 		if e.complexity.DetailUser.Gender == nil {
@@ -229,13 +270,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.DetailUser.Picture(childComplexity), true
 
-	case "DetailUser.skills":
-		if e.complexity.DetailUser.Skills == nil {
-			break
-		}
-
-		return e.complexity.DetailUser.Skills(childComplexity), true
-
 	case "DetailUser.title":
 		if e.complexity.DetailUser.Title == nil {
 			break
@@ -264,6 +298,27 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.FullUser.Email(childComplexity), true
 
+	case "FullUser.FaveFramework":
+		if e.complexity.FullUser.FaveFramework == nil {
+			break
+		}
+
+		return e.complexity.FullUser.FaveFramework(childComplexity), true
+
+	case "FullUser.FaveLangauge":
+		if e.complexity.FullUser.FaveLangauge == nil {
+			break
+		}
+
+		return e.complexity.FullUser.FaveLangauge(childComplexity), true
+
+	case "FullUser.FaveTool":
+		if e.complexity.FullUser.FaveTool == nil {
+			break
+		}
+
+		return e.complexity.FullUser.FaveTool(childComplexity), true
+
 	case "FullUser.gender":
 		if e.complexity.FullUser.Gender == nil {
 			break
@@ -291,13 +346,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.FullUser.Picture(childComplexity), true
-
-	case "FullUser.skills":
-		if e.complexity.FullUser.Skills == nil {
-			break
-		}
-
-		return e.complexity.FullUser.Skills(childComplexity), true
 
 	case "FullUser.title":
 		if e.complexity.FullUser.Title == nil {
@@ -940,8 +988,8 @@ func (ec *executionContext) fieldContext_DatingUser_picture(ctx context.Context,
 	return fc, nil
 }
 
-func (ec *executionContext) _DatingUser_skills(ctx context.Context, field graphql.CollectedField, obj *model.DatingUser) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DatingUser_skills(ctx, field)
+func (ec *executionContext) _DatingUser_FaveLangauge(ctx context.Context, field graphql.CollectedField, obj *model.DatingUser) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DatingUser_FaveLangauge(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -954,7 +1002,7 @@ func (ec *executionContext) _DatingUser_skills(ctx context.Context, field graphq
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Skills, nil
+		return obj.FaveLangauge, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -966,27 +1014,107 @@ func (ec *executionContext) _DatingUser_skills(ctx context.Context, field graphq
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Skill)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNSkill2ᚕᚖgithubᚗcomᚋbrianlangdonᚋtadaᚑauthᚋgraphᚋmodelᚐSkillᚄ(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_DatingUser_skills(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_DatingUser_FaveLangauge(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "DatingUser",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "name":
-				return ec.fieldContext_Skill_name(ctx, field)
-			case "icon":
-				return ec.fieldContext_Skill_icon(ctx, field)
-			case "importance":
-				return ec.fieldContext_Skill_importance(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Skill", field.Name)
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DatingUser_FaveFramework(ctx context.Context, field graphql.CollectedField, obj *model.DatingUser) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DatingUser_FaveFramework(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FaveFramework, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DatingUser_FaveFramework(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DatingUser",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DatingUser_FaveTool(ctx context.Context, field graphql.CollectedField, obj *model.DatingUser) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DatingUser_FaveTool(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FaveTool, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DatingUser_FaveTool(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DatingUser",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -1344,8 +1472,8 @@ func (ec *executionContext) fieldContext_DetailUser_company(ctx context.Context,
 	return fc, nil
 }
 
-func (ec *executionContext) _DetailUser_skills(ctx context.Context, field graphql.CollectedField, obj *model.DetailUser) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_DetailUser_skills(ctx, field)
+func (ec *executionContext) _DetailUser_FaveLangauge(ctx context.Context, field graphql.CollectedField, obj *model.DetailUser) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DetailUser_FaveLangauge(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -1358,7 +1486,7 @@ func (ec *executionContext) _DetailUser_skills(ctx context.Context, field graphq
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Skills, nil
+		return obj.FaveLangauge, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1370,27 +1498,107 @@ func (ec *executionContext) _DetailUser_skills(ctx context.Context, field graphq
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Skill)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNSkill2ᚕᚖgithubᚗcomᚋbrianlangdonᚋtadaᚑauthᚋgraphᚋmodelᚐSkillᚄ(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_DetailUser_skills(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_DetailUser_FaveLangauge(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "DetailUser",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "name":
-				return ec.fieldContext_Skill_name(ctx, field)
-			case "icon":
-				return ec.fieldContext_Skill_icon(ctx, field)
-			case "importance":
-				return ec.fieldContext_Skill_importance(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Skill", field.Name)
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DetailUser_FaveFramework(ctx context.Context, field graphql.CollectedField, obj *model.DetailUser) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DetailUser_FaveFramework(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FaveFramework, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DetailUser_FaveFramework(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DetailUser",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DetailUser_FaveTool(ctx context.Context, field graphql.CollectedField, obj *model.DetailUser) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DetailUser_FaveTool(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FaveTool, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DetailUser_FaveTool(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DetailUser",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -1792,8 +2000,8 @@ func (ec *executionContext) fieldContext_FullUser_company(ctx context.Context, f
 	return fc, nil
 }
 
-func (ec *executionContext) _FullUser_skills(ctx context.Context, field graphql.CollectedField, obj *model.FullUser) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_FullUser_skills(ctx, field)
+func (ec *executionContext) _FullUser_FaveLangauge(ctx context.Context, field graphql.CollectedField, obj *model.FullUser) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FullUser_FaveLangauge(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -1806,7 +2014,7 @@ func (ec *executionContext) _FullUser_skills(ctx context.Context, field graphql.
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Skills, nil
+		return obj.FaveLangauge, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1818,27 +2026,107 @@ func (ec *executionContext) _FullUser_skills(ctx context.Context, field graphql.
 		}
 		return graphql.Null
 	}
-	res := resTmp.([]*model.Skill)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalNSkill2ᚕᚖgithubᚗcomᚋbrianlangdonᚋtadaᚑauthᚋgraphᚋmodelᚐSkillᚄ(ctx, field.Selections, res)
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_FullUser_skills(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_FullUser_FaveLangauge(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "FullUser",
 		Field:      field,
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			switch field.Name {
-			case "name":
-				return ec.fieldContext_Skill_name(ctx, field)
-			case "icon":
-				return ec.fieldContext_Skill_icon(ctx, field)
-			case "importance":
-				return ec.fieldContext_Skill_importance(ctx, field)
-			}
-			return nil, fmt.Errorf("no field named %q was found under type Skill", field.Name)
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FullUser_FaveFramework(ctx context.Context, field graphql.CollectedField, obj *model.FullUser) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FullUser_FaveFramework(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FaveFramework, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FullUser_FaveFramework(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FullUser",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _FullUser_FaveTool(ctx context.Context, field graphql.CollectedField, obj *model.FullUser) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_FullUser_FaveTool(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FaveTool, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_FullUser_FaveTool(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "FullUser",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2073,8 +2361,12 @@ func (ec *executionContext) fieldContext_Mutation_matchUsers(ctx context.Context
 				return ec.fieldContext_FullUser_picture(ctx, field)
 			case "company":
 				return ec.fieldContext_FullUser_company(ctx, field)
-			case "skills":
-				return ec.fieldContext_FullUser_skills(ctx, field)
+			case "FaveLangauge":
+				return ec.fieldContext_FullUser_FaveLangauge(ctx, field)
+			case "FaveFramework":
+				return ec.fieldContext_FullUser_FaveFramework(ctx, field)
+			case "FaveTool":
+				return ec.fieldContext_FullUser_FaveTool(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type FullUser", field.Name)
 		},
@@ -2144,8 +2436,12 @@ func (ec *executionContext) fieldContext_Query_searchNear(ctx context.Context, f
 				return ec.fieldContext_DatingUser_gender(ctx, field)
 			case "picture":
 				return ec.fieldContext_DatingUser_picture(ctx, field)
-			case "skills":
-				return ec.fieldContext_DatingUser_skills(ctx, field)
+			case "FaveLangauge":
+				return ec.fieldContext_DatingUser_FaveLangauge(ctx, field)
+			case "FaveFramework":
+				return ec.fieldContext_DatingUser_FaveFramework(ctx, field)
+			case "FaveTool":
+				return ec.fieldContext_DatingUser_FaveTool(ctx, field)
 			case "match":
 				return ec.fieldContext_DatingUser_match(ctx, field)
 			}
@@ -2219,8 +2515,12 @@ func (ec *executionContext) fieldContext_Query_returnDetail(ctx context.Context,
 				return ec.fieldContext_DetailUser_picture(ctx, field)
 			case "company":
 				return ec.fieldContext_DetailUser_company(ctx, field)
-			case "skills":
-				return ec.fieldContext_DetailUser_skills(ctx, field)
+			case "FaveLangauge":
+				return ec.fieldContext_DetailUser_FaveLangauge(ctx, field)
+			case "FaveFramework":
+				return ec.fieldContext_DetailUser_FaveFramework(ctx, field)
+			case "FaveTool":
+				return ec.fieldContext_DetailUser_FaveTool(ctx, field)
 			case "match":
 				return ec.fieldContext_DetailUser_match(ctx, field)
 			}
@@ -2296,8 +2596,12 @@ func (ec *executionContext) fieldContext_Query_returnFull(ctx context.Context, f
 				return ec.fieldContext_FullUser_picture(ctx, field)
 			case "company":
 				return ec.fieldContext_FullUser_company(ctx, field)
-			case "skills":
-				return ec.fieldContext_FullUser_skills(ctx, field)
+			case "FaveLangauge":
+				return ec.fieldContext_FullUser_FaveLangauge(ctx, field)
+			case "FaveFramework":
+				return ec.fieldContext_FullUser_FaveFramework(ctx, field)
+			case "FaveTool":
+				return ec.fieldContext_FullUser_FaveTool(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type FullUser", field.Name)
 		},
@@ -4550,7 +4854,7 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"_id", "name", "title", "email", "location", "gender", "picture", "company", "skills"}
+	fieldsInOrder := [...]string{"_id", "name", "title", "email", "location", "gender", "picture", "company", "FaveLangauge", "FaveFramework", "FaveTool"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -4621,11 +4925,27 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 			if err != nil {
 				return it, err
 			}
-		case "skills":
+		case "FaveLangauge":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("skills"))
-			it.Skills, err = ec.unmarshalNSkillInput2ᚕᚖgithubᚗcomᚋbrianlangdonᚋtadaᚑauthᚋgraphᚋmodelᚐSkillInputᚄ(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("FaveLangauge"))
+			it.FaveLangauge, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "FaveFramework":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("FaveFramework"))
+			it.FaveFramework, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "FaveTool":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("FaveTool"))
+			it.FaveTool, err = ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -4731,9 +5051,23 @@ func (ec *executionContext) _DatingUser(ctx context.Context, sel ast.SelectionSe
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "skills":
+		case "FaveLangauge":
 
-			out.Values[i] = ec._DatingUser_skills(ctx, field, obj)
+			out.Values[i] = ec._DatingUser_FaveLangauge(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "FaveFramework":
+
+			out.Values[i] = ec._DatingUser_FaveFramework(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "FaveTool":
+
+			out.Values[i] = ec._DatingUser_FaveTool(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++
@@ -4815,9 +5149,23 @@ func (ec *executionContext) _DetailUser(ctx context.Context, sel ast.SelectionSe
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "skills":
+		case "FaveLangauge":
 
-			out.Values[i] = ec._DetailUser_skills(ctx, field, obj)
+			out.Values[i] = ec._DetailUser_FaveLangauge(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "FaveFramework":
+
+			out.Values[i] = ec._DetailUser_FaveFramework(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "FaveTool":
+
+			out.Values[i] = ec._DetailUser_FaveTool(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++
@@ -4906,9 +5254,23 @@ func (ec *executionContext) _FullUser(ctx context.Context, sel ast.SelectionSet,
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "skills":
+		case "FaveLangauge":
 
-			out.Values[i] = ec._FullUser_skills(ctx, field, obj)
+			out.Values[i] = ec._FullUser_FaveLangauge(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "FaveFramework":
+
+			out.Values[i] = ec._FullUser_FaveFramework(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "FaveTool":
+
+			out.Values[i] = ec._FullUser_FaveTool(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
 				invalids++
@@ -5651,82 +6013,6 @@ func (ec *executionContext) unmarshalNNewUser2githubᚗcomᚋbrianlangdonᚋtada
 func (ec *executionContext) unmarshalNRefreshTokenInput2githubᚗcomᚋbrianlangdonᚋtadaᚑauthᚋgraphᚋmodelᚐRefreshTokenInput(ctx context.Context, v interface{}) (model.RefreshTokenInput, error) {
 	res, err := ec.unmarshalInputRefreshTokenInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalNSkill2ᚕᚖgithubᚗcomᚋbrianlangdonᚋtadaᚑauthᚋgraphᚋmodelᚐSkillᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Skill) graphql.Marshaler {
-	ret := make(graphql.Array, len(v))
-	var wg sync.WaitGroup
-	isLen1 := len(v) == 1
-	if !isLen1 {
-		wg.Add(len(v))
-	}
-	for i := range v {
-		i := i
-		fc := &graphql.FieldContext{
-			Index:  &i,
-			Result: &v[i],
-		}
-		ctx := graphql.WithFieldContext(ctx, fc)
-		f := func(i int) {
-			defer func() {
-				if r := recover(); r != nil {
-					ec.Error(ctx, ec.Recover(ctx, r))
-					ret = nil
-				}
-			}()
-			if !isLen1 {
-				defer wg.Done()
-			}
-			ret[i] = ec.marshalNSkill2ᚖgithubᚗcomᚋbrianlangdonᚋtadaᚑauthᚋgraphᚋmodelᚐSkill(ctx, sel, v[i])
-		}
-		if isLen1 {
-			f(i)
-		} else {
-			go f(i)
-		}
-
-	}
-	wg.Wait()
-
-	for _, e := range ret {
-		if e == graphql.Null {
-			return graphql.Null
-		}
-	}
-
-	return ret
-}
-
-func (ec *executionContext) marshalNSkill2ᚖgithubᚗcomᚋbrianlangdonᚋtadaᚑauthᚋgraphᚋmodelᚐSkill(ctx context.Context, sel ast.SelectionSet, v *model.Skill) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._Skill(ctx, sel, v)
-}
-
-func (ec *executionContext) unmarshalNSkillInput2ᚕᚖgithubᚗcomᚋbrianlangdonᚋtadaᚑauthᚋgraphᚋmodelᚐSkillInputᚄ(ctx context.Context, v interface{}) ([]*model.SkillInput, error) {
-	var vSlice []interface{}
-	if v != nil {
-		vSlice = graphql.CoerceList(v)
-	}
-	var err error
-	res := make([]*model.SkillInput, len(vSlice))
-	for i := range vSlice {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
-		res[i], err = ec.unmarshalNSkillInput2ᚖgithubᚗcomᚋbrianlangdonᚋtadaᚑauthᚋgraphᚋmodelᚐSkillInput(ctx, vSlice[i])
-		if err != nil {
-			return nil, err
-		}
-	}
-	return res, nil
-}
-
-func (ec *executionContext) unmarshalNSkillInput2ᚖgithubᚗcomᚋbrianlangdonᚋtadaᚑauthᚋgraphᚋmodelᚐSkillInput(ctx context.Context, v interface{}) (*model.SkillInput, error) {
-	res, err := ec.unmarshalInputSkillInput(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {

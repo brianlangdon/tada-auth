@@ -9,38 +9,44 @@ import (
 )
 
 type DatingUser struct {
-	ID       string     `json:"id"`
-	Username string     `json:"username"`
-	Title    string     `json:"title"`
-	Location string     `json:"location"`
-	Gender   GenderType `json:"gender"`
-	Picture  string     `json:"picture"`
-	Skills   []*Skill   `json:"skills"`
-	Match    MatchType  `json:"match"`
+	ID            string     `json:"id"`
+	Username      string     `json:"username"`
+	Title         string     `json:"title"`
+	Location      string     `json:"location"`
+	Gender        GenderType `json:"gender"`
+	Picture       string     `json:"picture"`
+	FaveLangauge  string     `json:"FaveLangauge"`
+	FaveFramework string     `json:"FaveFramework"`
+	FaveTool      string     `json:"FaveTool"`
+	Match         MatchType  `json:"match"`
 }
 
 type DetailUser struct {
-	ID       string     `json:"id"`
-	Username string     `json:"username"`
-	Title    string     `json:"title"`
-	Location string     `json:"location"`
-	Gender   GenderType `json:"gender"`
-	Picture  string     `json:"picture"`
-	Company  string     `json:"company"`
-	Skills   []*Skill   `json:"skills"`
-	Match    MatchType  `json:"match"`
+	ID            string     `json:"id"`
+	Username      string     `json:"username"`
+	Title         string     `json:"title"`
+	Location      string     `json:"location"`
+	Gender        GenderType `json:"gender"`
+	Picture       string     `json:"picture"`
+	Company       string     `json:"company"`
+	FaveLangauge  string     `json:"FaveLangauge"`
+	FaveFramework string     `json:"FaveFramework"`
+	FaveTool      string     `json:"FaveTool"`
+	Match         MatchType  `json:"match"`
 }
 
 type FullUser struct {
-	ID       string     `json:"id"`
-	Username string     `json:"username"`
-	Title    string     `json:"title"`
-	Email    string     `json:"email"`
-	Location string     `json:"location"`
-	Gender   GenderType `json:"gender"`
-	Picture  string     `json:"picture"`
-	Company  string     `json:"company"`
-	Skills   []*Skill   `json:"skills"`
+	ID            string     `json:"id"`
+	Username      string     `json:"username"`
+	Title         string     `json:"title"`
+	Email         string     `json:"email"`
+	Location      string     `json:"location"`
+	Gender        GenderType `json:"gender"`
+	Picture       string     `json:"picture"`
+	Company       string     `json:"company"`
+	FaveLangauge  string     `json:"FaveLangauge"`
+	FaveFramework string     `json:"FaveFramework"`
+	FaveTool      string     `json:"FaveTool"`
 }
 
 type Login struct {
@@ -71,15 +77,17 @@ type SkillInput struct {
 }
 
 type UserInput struct {
-	ID       *string       `json:"_id,omitempty"`
-	Name     string        `json:"name"`
-	Title    string        `json:"title"`
-	Email    string        `json:"email"`
-	Location string        `json:"location"`
-	Gender   GenderType    `json:"gender"`
-	Picture  string        `json:"picture"`
-	Company  string        `json:"company"`
-	Skills   []*SkillInput `json:"skills"`
+	ID            *string    `json:"_id,omitempty"`
+	Name          string     `json:"name"`
+	Title         string     `json:"title"`
+	Email         string     `json:"email"`
+	Location      string     `json:"location"`
+	Gender        GenderType `json:"gender"`
+	Picture       string     `json:"picture"`
+	Company       string     `json:"company"`
+	FaveLangauge  string     `json:"FaveLangauge"`
+	FaveFramework string     `json:"FaveFramework"`
+	FaveTool      string     `json:"FaveTool"`
 }
 
 type UsersToMatch struct {

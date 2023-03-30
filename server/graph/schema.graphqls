@@ -20,7 +20,9 @@ type FullUser {
     gender: GenderType!
     picture: String!
     company: String!
-    skills: [Skill!]!
+	FaveLangauge: String!
+	FaveFramework: String!
+	FaveTool: String!
 }
 
 type DetailUser {
@@ -31,7 +33,9 @@ type DetailUser {
     gender: GenderType!
     picture: String!
     company: String!
-    skills: [Skill!]!
+	FaveLangauge: String!
+	FaveFramework: String!
+	FaveTool: String!
     match: MatchType!
 }
 
@@ -42,7 +46,9 @@ type DatingUser {
     location: String!
     gender: GenderType!
     picture: String!
-    skills: [Skill!]!
+	FaveLangauge: String!
+	FaveFramework: String!
+	FaveTool: String!
     match: MatchType!
 }
 
@@ -55,7 +61,9 @@ input UserInput {
     gender: GenderType!
     picture: String!
     company: String!
-    skills: [SkillInput!]!
+	FaveLangauge: String!
+	FaveFramework: String!
+	FaveTool: String!
 }
 
 enum GenderType {

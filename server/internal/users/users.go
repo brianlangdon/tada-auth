@@ -17,13 +17,15 @@ type User struct {
 }
 
 func (user *User) Create() bool {
-	statement, err := database.Db.Prepare("INSERT INTO Users(Username,Password,Email) VALUES(?,?,?)")
+	statement, err := database.Db.Prepare("INSERT INTO Users(Username, Password, Email, Title, Location, Gender, Picture, Company, FaveLangauge, FaveFramework, FaveTool) VALUES(?,?,?,?,?,?,?,?,?,?,?)")
 
 	if err != nil {
 		return false
 	}
+	defer statement.Close()
+
 	hashedPassword, _ := HashPassword(user.Password)
-	_, err = statement.Exec(user.Username, hashedPassword, user.Email)
+	_, err = statement.Exec(user.Username, hashedPassword, user.Email, "", "", "OTHER", "", "", "", "", "")
 
 	return err == nil
 }
@@ -34,6 +36,8 @@ func (user *User) Authenticate() bool {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer statement.Close()
+
 	row := statement.QueryRow(user.Email)
 
 	var hashedPassword string
@@ -55,6 +59,8 @@ func GetUserIdByUsername(username string) (int, error) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer statement.Close()
+
 	row := statement.QueryRow(username)
 
 	var Id int
@@ -75,6 +81,8 @@ func GetUsernameById(userId string) (User, error) {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer statement.Close()
+
 	row := statement.QueryRow(userId)
 
 	var username string
@@ -91,14 +99,15 @@ func GetUsernameById(userId string) (User, error) {
 
 // GetUserByID check if a user exists in database and return the user object.
 func GetUserByEmail(email string) (model.FullUser, error) {
-	statement, err := database.Db.Prepare("select * from Users WHERE ID = ?")
+	statement, err := database.Db.Prepare("select Username, Email, Title, Location, Gender, Picture, Company, FaveLangauge, FaveFramework, FaveTool from Users WHERE Email = ?")
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer statement.Close()
 	row := statement.QueryRow(email)
 
 	var user model.FullUser
-	err = row.Scan(&user.Username)
+	err = row.Scan(&user.Username, &user.Email, &user.Title, &user.Location, &user.Gender, &user.Picture, &user.Company, &user.FaveLangauge, &user.FaveFramework, &user.FaveTool)
 	if err != nil {
 		if err != sql.ErrNoRows {
 			log.Print(err)
