@@ -2,21 +2,50 @@
 
 package model
 
-type Link struct {
-	ID      string `json:"id"`
-	Title   string `json:"title"`
-	Address string `json:"address"`
-	User    *User  `json:"user"`
+import (
+	"fmt"
+	"io"
+	"strconv"
+)
+
+type DatingUser struct {
+	ID       string     `json:"id"`
+	Username string     `json:"username"`
+	Title    string     `json:"title"`
+	Location string     `json:"location"`
+	Gender   GenderType `json:"gender"`
+	Picture  string     `json:"picture"`
+	Skills   []*Skill   `json:"skills"`
+	Match    MatchType  `json:"match"`
+}
+
+type DetailUser struct {
+	ID       string     `json:"id"`
+	Username string     `json:"username"`
+	Title    string     `json:"title"`
+	Location string     `json:"location"`
+	Gender   GenderType `json:"gender"`
+	Picture  string     `json:"picture"`
+	Company  string     `json:"company"`
+	Skills   []*Skill   `json:"skills"`
+	Match    MatchType  `json:"match"`
+}
+
+type FullUser struct {
+	ID       string     `json:"id"`
+	Username string     `json:"username"`
+	Title    string     `json:"title"`
+	Email    string     `json:"email"`
+	Location string     `json:"location"`
+	Gender   GenderType `json:"gender"`
+	Picture  string     `json:"picture"`
+	Company  string     `json:"company"`
+	Skills   []*Skill   `json:"skills"`
 }
 
 type Login struct {
 	Email    string `json:"email"`
 	Password string `json:"password"`
-}
-
-type NewLink struct {
-	Title   string `json:"title"`
-	Address string `json:"address"`
 }
 
 type NewUser struct {
@@ -29,11 +58,123 @@ type RefreshTokenInput struct {
 	Token string `json:"token"`
 }
 
-type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+type Skill struct {
+	Name       string  `json:"name"`
+	Icon       *string `json:"icon,omitempty"`
+	Importance int     `json:"importance"`
+}
+
+type SkillInput struct {
+	Name       string  `json:"name"`
+	Icon       *string `json:"icon,omitempty"`
+	Importance int     `json:"importance"`
+}
+
+type UserInput struct {
+	ID       *string       `json:"_id,omitempty"`
+	Name     string        `json:"name"`
+	Title    string        `json:"title"`
+	Email    string        `json:"email"`
+	Location string        `json:"location"`
+	Gender   GenderType    `json:"gender"`
+	Picture  string        `json:"picture"`
+	Company  string        `json:"company"`
+	Skills   []*SkillInput `json:"skills"`
+}
+
+type UsersToMatch struct {
+	CurrentUserEmail string `json:"currentUserEmail"`
+	MatchUserEmail   string `json:"matchUserEmail"`
 }
 
 type Token struct {
 	Token string `json:"token"`
+}
+
+type GenderType string
+
+const (
+	GenderTypeMale   GenderType = "MALE"
+	GenderTypeFemale GenderType = "FEMALE"
+	GenderTypeOther  GenderType = "OTHER"
+)
+
+var AllGenderType = []GenderType{
+	GenderTypeMale,
+	GenderTypeFemale,
+	GenderTypeOther,
+}
+
+func (e GenderType) IsValid() bool {
+	switch e {
+	case GenderTypeMale, GenderTypeFemale, GenderTypeOther:
+		return true
+	}
+	return false
+}
+
+func (e GenderType) String() string {
+	return string(e)
+}
+
+func (e *GenderType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = GenderType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid GenderType", str)
+	}
+	return nil
+}
+
+func (e GenderType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type MatchType string
+
+const (
+	MatchTypeYes       MatchType = "YES"
+	MatchTypeNo        MatchType = "NO"
+	MatchTypeUndecided MatchType = "UNDECIDED"
+	MatchTypeIgnore    MatchType = "IGNORE"
+)
+
+var AllMatchType = []MatchType{
+	MatchTypeYes,
+	MatchTypeNo,
+	MatchTypeUndecided,
+	MatchTypeIgnore,
+}
+
+func (e MatchType) IsValid() bool {
+	switch e {
+	case MatchTypeYes, MatchTypeNo, MatchTypeUndecided, MatchTypeIgnore:
+		return true
+	}
+	return false
+}
+
+func (e MatchType) String() string {
+	return string(e)
+}
+
+func (e *MatchType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = MatchType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid MatchType", str)
+	}
+	return nil
+}
+
+func (e MatchType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
 }

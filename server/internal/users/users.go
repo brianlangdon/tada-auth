@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"log"
 
+	"github.com/brianlangdon/tada-auth/graph/model"
 	database "github.com/brianlangdon/tada-auth/internal/pkg/db/mysql"
 	"golang.org/x/crypto/bcrypt"
 )
@@ -15,22 +16,21 @@ type User struct {
 	Email    string `json:"email"`
 }
 
-func (user *User) Create() {
+func (user *User) Create() bool {
 	statement, err := database.Db.Prepare("INSERT INTO Users(Username,Password,Email) VALUES(?,?,?)")
-	print(statement)
+
 	if err != nil {
-		log.Fatal(err)
+		return false
 	}
-	hashedPassword, err := HashPassword(user.Password)
+	hashedPassword, _ := HashPassword(user.Password)
 	_, err = statement.Exec(user.Username, hashedPassword, user.Email)
-	if err != nil {
-		log.Fatal(err)
-	}
+
+	return err == nil
 }
 
 func (user *User) Authenticate() bool {
 	statement, err := database.Db.Prepare("select Password from Users WHERE Email = ?")
-	print(statement)
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -87,6 +87,26 @@ func GetUsernameById(userId string) (User, error) {
 	}
 
 	return User{ID: userId, Username: username}, nil
+}
+
+// GetUserByID check if a user exists in database and return the user object.
+func GetUserByEmail(email string) (model.FullUser, error) {
+	statement, err := database.Db.Prepare("select * from Users WHERE ID = ?")
+	if err != nil {
+		log.Fatal(err)
+	}
+	row := statement.QueryRow(email)
+
+	var user model.FullUser
+	err = row.Scan(&user.Username)
+	if err != nil {
+		if err != sql.ErrNoRows {
+			log.Print(err)
+		}
+		return user, err
+	}
+
+	return user, nil
 }
 
 // HashPassword hashes given password

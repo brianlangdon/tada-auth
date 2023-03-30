@@ -7,32 +7,11 @@ package graph
 import (
 	"context"
 	"fmt"
-	"strconv"
 
 	"github.com/brianlangdon/tada-auth/graph/model"
-	"github.com/brianlangdon/tada-auth/internal/auth"
-	"github.com/brianlangdon/tada-auth/internal/links"
 	"github.com/brianlangdon/tada-auth/internal/users"
 	"github.com/brianlangdon/tada-auth/pkg/jwt"
 )
-
-// CreateLink is the resolver for the createLink field.
-func (r *mutationResolver) CreateLink(ctx context.Context, input model.NewLink) (*model.Link, error) {
-	user := auth.ForContext(ctx)
-	if user == nil {
-		return &model.Link{}, fmt.Errorf("access denied")
-	}
-	var link links.Link
-	link.Title = input.Title
-	link.Address = input.Address
-	link.User = user
-	linkId := link.Save()
-	grahpqlUser := &model.User{
-		ID:   user.ID,
-		Name: user.Username,
-	}
-	return &model.Link{ID: strconv.FormatInt(linkId, 10), Title: link.Title, Address: link.Address, User: grahpqlUser}, nil
-}
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.Token, error) {
@@ -41,7 +20,10 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	user.Password = input.Password
 	user.Email = input.Email
 
-	user.Create()
+	created := user.Create()
+	if !created {
+		return nil, &users.UnableToCreateUserError{}
+	}
 	token, err := jwt.GenerateToken(user.Username)
 	if err != nil {
 		return nil, err
@@ -59,7 +41,6 @@ func (r *mutationResolver) Login(ctx context.Context, input model.Login) (*model
 	user.Password = input.Password
 	correct := user.Authenticate()
 	if !correct {
-		// 1
 		return nil, &users.WrongUsernameOrPasswordError{}
 	}
 	token, err := jwt.GenerateToken(user.Username)
@@ -89,18 +70,29 @@ func (r *mutationResolver) RefreshToken(ctx context.Context, input model.Refresh
 	return &retToken, nil
 }
 
-// Links is the resolver for the links field.
-func (r *queryResolver) Links(ctx context.Context) ([]*model.Link, error) {
-	var resultLinks []*model.Link
-	var dbLinks []links.Link
-	dbLinks = links.GetAll()
-	for _, link := range dbLinks {
-		grahpqlUser := &model.User{
-			Name: link.User.Password,
-		}
-		resultLinks = append(resultLinks, &model.Link{ID: link.ID, Title: link.Title, Address: link.Address, User: grahpqlUser})
-	}
-	return resultLinks, nil
+// MatchUsers is the resolver for the matchUsers field.
+func (r *mutationResolver) MatchUsers(ctx context.Context, input *model.UsersToMatch) (*model.FullUser, error) {
+	panic(fmt.Errorf("not implemented: MatchUsers - matchUsers"))
+}
+
+// SearchNear is the resolver for the searchNear field.
+func (r *queryResolver) SearchNear(ctx context.Context, email string) ([]*model.DatingUser, error) {
+	panic(fmt.Errorf("not implemented: SearchNear - searchNear"))
+}
+
+// ReturnDetail is the resolver for the returnDetail field.
+func (r *queryResolver) ReturnDetail(ctx context.Context, email string) ([]*model.DetailUser, error) {
+	panic(fmt.Errorf("not implemented: ReturnDetail - returnDetail"))
+}
+
+// ReturnFull is the resolver for the returnFull field.
+func (r *queryResolver) ReturnFull(ctx context.Context, email string) (*model.FullUser, error) {
+	// the user should exist as it's either the logged in user OR a dating match
+	//
+	var user model.FullUser
+	user, _ = users.GetUserByEmail(email)
+
+	return &user, nil
 }
 
 // Mutation returns MutationResolver implementation.

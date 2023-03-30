@@ -2,7 +2,6 @@ package auth
 
 import (
 	"context"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -26,16 +25,11 @@ func Middleware() func(http.Handler) http.Handler {
 				next.ServeHTTP(w, r)
 				return
 			}
-			print(header)
 			//validate jwt token
-			fmt.Println(header)
 			tokenStr := header
-			fmt.Println(tokenStr)
 			auth := tokenStr[len("Bearer "):]
-			fmt.Println(auth)
 
 			username, err := jwt.ParseToken(auth)
-			print(username)
 			if err != nil {
 				http.Error(w, "Invalid token", http.StatusForbidden)
 				return

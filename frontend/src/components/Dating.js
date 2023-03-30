@@ -1,4 +1,4 @@
-import {Link, useNavigate} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {AUTH_TOKEN} from '../constants';
 
 const Dating = () => {
