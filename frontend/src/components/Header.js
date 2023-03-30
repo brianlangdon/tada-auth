@@ -11,20 +11,20 @@ const Header = () => {
         <Link to="/" className="no-underline black">
           <div className="fw7 mr1">TADA - The Amazing Dating App</div>
         </Link>
-        <Link
-          to="/search"
-          className="ml1 no-underline black"
-        >
-          search
-        </Link>
         {authToken && (
           <div className="flex">
             <div className="ml1">|</div>
             <Link
-              to="/create"
+              to="/profile"
               className="ml1 no-underline black"
             >
-              submit
+              Profile
+            </Link>
+            <Link
+              to="/dating"
+              className="ml1 no-underline black"
+            >
+              Dates
             </Link>
           </div>
         )}

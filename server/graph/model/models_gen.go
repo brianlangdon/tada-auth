@@ -33,3 +33,7 @@ type User struct {
 	ID   string `json:"id"`
 	Name string `json:"name"`
 }
+
+type Token struct {
+	Token string `json:"token"`
+}

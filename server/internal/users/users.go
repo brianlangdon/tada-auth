@@ -16,13 +16,13 @@ type User struct {
 }
 
 func (user *User) Create() {
-	statement, err := database.Db.Prepare("INSERT INTO Users(Username,Password) VALUES(?,?)")
+	statement, err := database.Db.Prepare("INSERT INTO Users(Username,Password,Email) VALUES(?,?,?)")
 	print(statement)
 	if err != nil {
 		log.Fatal(err)
 	}
 	hashedPassword, err := HashPassword(user.Password)
-	_, err = statement.Exec(user.Username, hashedPassword)
+	_, err = statement.Exec(user.Username, hashedPassword, user.Email)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -30,6 +30,7 @@ func (user *User) Create() {
 
 func (user *User) Authenticate() bool {
 	statement, err := database.Db.Prepare("select Password from Users WHERE Email = ?")
+	print(statement)
 	if err != nil {
 		log.Fatal(err)
 	}

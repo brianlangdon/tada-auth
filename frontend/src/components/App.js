@@ -1,10 +1,10 @@
 import React from 'react';
-import CreateLink from './CreateLink';
 import Header from './Header';
-import LinkList from './LinkList';
 import {Navigate, Route, Routes} from 'react-router-dom';
 import Login from './Login';
-import Search from './Search';
+import Dating from './Dating';
+import Details from './Details';
+import Profile from './Profile';
 
 const App = () => (
   <div className="center w85">
@@ -15,16 +15,10 @@ const App = () => (
           path="/"
           element={<Navigate replace to="/login" />}
         />
-        <Route
-          path="/create"
-          element={<CreateLink/>}
-        />
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/search"element={<Search/>}/>
-        <Route
-          path="/new/:page"
-          element={<LinkList/>}
-        />
+        <Route path="/login" element={<Login/>} />
+        <Route path="/dating" element={<Dating/>} />
+        <Route path="/details" element={<Details/>} />
+        <Route path="/profile" element={<Profile/>} />
       </Routes>
     </div>
   </div>

@@ -16,6 +16,7 @@ import (
 	"github.com/brianlangdon/tada-auth/pkg/jwt"
 )
 
+// CreateLink is the resolver for the createLink field.
 func (r *mutationResolver) CreateLink(ctx context.Context, input model.NewLink) (*model.Link, error) {
 	user := auth.ForContext(ctx)
 	if user == nil {
@@ -33,7 +34,8 @@ func (r *mutationResolver) CreateLink(ctx context.Context, input model.NewLink) 
 	return &model.Link{ID: strconv.FormatInt(linkId, 10), Title: link.Title, Address: link.Address, User: grahpqlUser}, nil
 }
 
-func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (string, error) {
+// CreateUser is the resolver for the createUser field.
+func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.Token, error) {
 	var user users.User
 	user.Username = input.Username
 	user.Password = input.Password
@@ -42,39 +44,52 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	user.Create()
 	token, err := jwt.GenerateToken(user.Username)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return token, nil
+	var retToken model.Token
+	retToken.Token = token
+
+	return &retToken, nil
 }
 
-func (r *mutationResolver) Login(ctx context.Context, input model.Login) (string, error) {
+// Login is the resolver for the login field.
+func (r *mutationResolver) Login(ctx context.Context, input model.Login) (*model.Token, error) {
 	var user users.User
 	user.Email = input.Email
 	user.Password = input.Password
 	correct := user.Authenticate()
 	if !correct {
 		// 1
-		return "", &users.WrongUsernameOrPasswordError{}
+		return nil, &users.WrongUsernameOrPasswordError{}
 	}
 	token, err := jwt.GenerateToken(user.Username)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return token, nil
+
+	var retToken model.Token
+	retToken.Token = token
+
+	return &retToken, nil
 }
 
-func (r *mutationResolver) RefreshToken(ctx context.Context, input model.RefreshTokenInput) (string, error) {
+// RefreshToken is the resolver for the refreshToken field.
+func (r *mutationResolver) RefreshToken(ctx context.Context, input model.RefreshTokenInput) (*model.Token, error) {
 	username, err := jwt.ParseToken(input.Token)
 	if err != nil {
-		return "", fmt.Errorf("access denied")
+		return nil, fmt.Errorf("access denied")
 	}
 	token, err := jwt.GenerateToken(username)
 	if err != nil {
-		return "", err
+		return nil, err
 	}
-	return token, nil
+	var retToken model.Token
+	retToken.Token = token
+
+	return &retToken, nil
 }
 
+// Links is the resolver for the links field.
 func (r *queryResolver) Links(ctx context.Context) ([]*model.Link, error) {
 	var resultLinks []*model.Link
 	var dbLinks []links.Link
@@ -88,10 +103,10 @@ func (r *queryResolver) Links(ctx context.Context) ([]*model.Link, error) {
 	return resultLinks, nil
 }
 
-// Mutation returns generated.MutationResolver implementation.
+// Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 
-// Query returns generated.QueryResolver implementation.
+// Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
