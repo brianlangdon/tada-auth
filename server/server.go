@@ -24,22 +24,9 @@ func main() {
 
 	router := chi.NewRouter()
 
+	// turn off cors for development
 	router.Use(cors.AllowAll().Handler)
 	router.Use(auth.Middleware())
-
-	// CORS setting
-	//cors := cors.AllowAll()
-
-	//New(cors.Options{
-	// Use this to allow specific origin hosts
-	//	AllowedOrigins: []string{"https://*", "http://*"},
-	// AllowOriginFunc:  func(r *http.Request, origin string) bool { return true },
-	//	AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-	//	AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type", "X-CSRF-Token"},
-	//	ExposedHeaders:   []string{"Link"},
-	//	AllowCredentials: true,
-	//	MaxAge:           300, // Maximum value not ignored by any of major browsers
-	//}//)
 
 	database.InitDB()
 	defer database.CloseDB()
