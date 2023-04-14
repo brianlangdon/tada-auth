@@ -12,8 +12,8 @@ import (
 
 var Db *sql.DB
 
-func InitDB() {
-	db, err := sql.Open("mysql", "root:dbpass@(localhost:3306)/tada")
+func InitDB(dataSourceName string) {
+	db, err := sql.Open("mysql", dataSourceName)
 	if err != nil {
 		log.Panic(err)
 	}

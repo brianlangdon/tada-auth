@@ -28,7 +28,7 @@ func main() {
 	router.Use(cors.AllowAll().Handler)
 	router.Use(auth.Middleware())
 
-	database.InitDB()
+	database.InitDB("root:dbpass@(localhost:3306)/tada")
 	defer database.CloseDB()
 	database.Migrate()
 
