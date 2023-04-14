@@ -1,22 +1,13 @@
-package users
+package model
 
-import (
-	"database/sql"
-	"log"
-
-	"github.com/brianlangdon/tada-auth/graph/model"
-	database "github.com/brianlangdon/tada-auth/internal/pkg/db/mysql"
-	"golang.org/x/crypto/bcrypt"
-)
-
-type User struct {
-	ID       string `json:"id"`
-	Username string `json:"name"`
-	Password string `json:"password"`
-	Email    string `json:"email"`
-}
-
-func (user *User) Create() bool {
+//type User struct {
+//	// ID       string `json:"id"`
+//	Username string `json:"name"`
+//	Password string `json:"password"`
+//	Email    string `json:"email"`
+//}
+/*
+func (user *NewUser) Create() bool {
 	statement, err := database.Db.Prepare("INSERT INTO Users(Username, Password, Email, Title, Location, Gender, Picture, Company, FaveLangauge, FaveFramework, FaveTool) VALUES(?,?,?,?,?,?,?,?,?,?,?)")
 
 	if err != nil {
@@ -30,6 +21,8 @@ func (user *User) Create() bool {
 	return err == nil
 }
 
+*/
+/*
 func (user *User) Authenticate() bool {
 	statement, err := database.Db.Prepare("select Password from Users WHERE Email = ?")
 
@@ -75,6 +68,7 @@ func GetUserIdByUsername(username string) (int, error) {
 	return Id, nil
 }
 
+/*
 // GetUserByID check if a user exists in database and return the user object.
 func GetUsernameById(userId string) (User, error) {
 	statement, err := database.Db.Prepare("select Username from Users WHERE ID = ?")
@@ -129,3 +123,4 @@ func CheckPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
 }
+*/

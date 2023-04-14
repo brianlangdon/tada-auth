@@ -6,25 +6,32 @@ package graph
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
+	"log"
 
 	"github.com/brianlangdon/tada-auth/graph/model"
-	"github.com/brianlangdon/tada-auth/internal/users"
 	"github.com/brianlangdon/tada-auth/pkg/jwt"
+	"golang.org/x/crypto/bcrypt"
 )
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.Token, error) {
-	var user users.User
-	user.Username = input.Username
-	user.Password = input.Password
-	user.Email = input.Email
 
-	created := user.Create()
-	if !created {
-		return nil, &users.UnableToCreateUserError{}
+	statement, err := r.DB.Prepare("INSERT INTO Users(Username, Password, Email, Title, Location, Gender, Picture, Company, FaveLangauge, FaveFramework, FaveTool) VALUES(?,?,?,?,?,?,?,?,?,?,?)")
+
+	if err != nil {
+		return nil, err
 	}
-	token, err := jwt.GenerateToken(user.Username)
+	defer statement.Close()
+
+	hashedPassword, _ := HashPassword(input.Password)
+	_, err = statement.Exec(input.Username, hashedPassword, input.Email, "", "", "OTHER", "", "", "", "", "")
+
+	if err != nil {
+		return nil, &model.UnableToCreateUserError{}
+	}
+	token, err := jwt.GenerateToken(input.Username)
 	if err != nil {
 		return nil, err
 	}
@@ -36,14 +43,33 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 
 // Login is the resolver for the login field.
 func (r *mutationResolver) Login(ctx context.Context, input model.Login) (*model.Token, error) {
-	var user users.User
-	user.Email = input.Email
-	user.Password = input.Password
-	correct := user.Authenticate()
-	if !correct {
-		return nil, &users.WrongUsernameOrPasswordError{}
+
+	statement, err := r.DB.Prepare("select Username, Password from Users WHERE Email = ?")
+
+	if err != nil {
+		log.Fatal(err)
 	}
-	token, err := jwt.GenerateToken(user.Username)
+	defer statement.Close()
+
+	row := statement.QueryRow(input.Email)
+
+	var hashedPassword string
+	var Username string
+	err = row.Scan(&Username, &hashedPassword)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, err
+		} else {
+			log.Fatal(err)
+		}
+	}
+
+	validPassword := CheckPasswordHash(input.Password, hashedPassword)
+
+	if !validPassword {
+		return nil, &model.WrongUsernameOrPasswordError{}
+	}
+	token, err := jwt.GenerateToken(Username)
 	if err != nil {
 		return nil, err
 	}
@@ -90,9 +116,64 @@ func (r *queryResolver) ReturnFull(ctx context.Context, email string) (*model.Fu
 	// the user should exist as it's either the logged in user OR a dating match
 	//
 	var user model.FullUser
-	user, _ = users.GetUserByEmail(email)
+	user, _ = r.GetUserByEmail(email)
 
 	return &user, nil
+}
+
+// GetUserByID check if a user exists in database and return the user object.
+func (r *queryResolver) GetUsernameById(userId string) (model.FullUser, error) {
+	statement, err := r.DB.Prepare("select Username from Users WHERE ID = ?")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer statement.Close()
+
+	row := statement.QueryRow(userId)
+
+	var username string
+	err = row.Scan(&username)
+	if err != nil {
+		if err != sql.ErrNoRows {
+			log.Print(err)
+		}
+		return model.FullUser{}, err
+	}
+
+	return model.FullUser{ID: userId, Username: username}, nil
+}
+
+// GetUserByID check if a user exists in database and return the user object.
+func (r *queryResolver) GetUserByEmail(email string) (model.FullUser, error) {
+	statement, err := r.DB.Prepare("select Username, Email, Title, Location, Gender, Picture, Company, FaveLangauge, FaveFramework, FaveTool from Users WHERE Email = ?")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer statement.Close()
+	row := statement.QueryRow(email)
+
+	var user model.FullUser
+	err = row.Scan(&user.Username, &user.Email, &user.Title, &user.Location, &user.Gender, &user.Picture, &user.Company, &user.FaveLangauge, &user.FaveFramework, &user.FaveTool)
+	if err != nil {
+		if err != sql.ErrNoRows {
+			log.Print(err)
+		}
+		return user, err
+	}
+
+	return user, nil
+}
+
+// HashPassword hashes given password
+func HashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	return string(bytes), err
+}
+
+// CheckPassword hash compares raw password with it's hashed values
+func CheckPasswordHash(password, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
 }
 
 // Mutation returns MutationResolver implementation.

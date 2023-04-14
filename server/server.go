@@ -28,11 +28,20 @@ func main() {
 	router.Use(cors.AllowAll().Handler)
 	router.Use(auth.Middleware())
 
-	database.InitDB("root:dbpass@(localhost:3306)/tada")
-	defer database.CloseDB()
-	database.Migrate()
+	db, err := database.InitDB("root:dbpass@(localhost:3306)/tada")
+	if err != nil {
+		log.Fatalf("Failed to connect to database: %v", err)
+	}
+	defer database.CloseDB(db)
+	database.Migrate(db)
 
-	server := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
+	server := handler.NewDefaultServer(
+		graph.NewExecutableSchema(
+			graph.Config{
+				Resolvers: &graph.Resolver{DB: db},
+			},
+		),
+	)
 	router.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	router.Handle("/query", server)
 
