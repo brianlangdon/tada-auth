@@ -7,6 +7,7 @@ type Query {
 type Mutation {
     createUser(input: NewUser!): token!
     login(input: Login!): token!
+    updateUser(input: UserInput): FullUser!
     refreshToken(input: RefreshTokenInput!): token!
     matchUsers(input: UsersToMatch): FullUser
 }
@@ -14,8 +15,9 @@ type Mutation {
 type FullUser {
     id: ID!
     username: String!
-    title: String!
+    password: String!
     email: String!
+    title: String!
     location: String!
     gender: GenderType!
     picture: String!
@@ -28,6 +30,7 @@ type FullUser {
 type DetailUser {
     id: ID!
     username: String!
+    email: String!
     title: String!
     location: String!
     gender: GenderType!
@@ -42,6 +45,7 @@ type DetailUser {
 type DatingUser {
     id: ID!
     username: String!
+    email: String!
     title: String!
     location: String!
     gender: GenderType!
@@ -53,10 +57,10 @@ type DatingUser {
 }
 
 input UserInput {
-    _id: ID
-    name: String!
-    title: String!
+    username: String!
+    password: String!
     email: String!
+    title: String!
     location: String!
     gender: GenderType!
     picture: String!

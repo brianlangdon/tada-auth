@@ -11,6 +11,7 @@ import (
 type DatingUser struct {
 	ID            string     `json:"id"`
 	Username      string     `json:"username"`
+	Email         string     `json:"email"`
 	Title         string     `json:"title"`
 	Location      string     `json:"location"`
 	Gender        GenderType `json:"gender"`
@@ -24,6 +25,7 @@ type DatingUser struct {
 type DetailUser struct {
 	ID            string     `json:"id"`
 	Username      string     `json:"username"`
+	Email         string     `json:"email"`
 	Title         string     `json:"title"`
 	Location      string     `json:"location"`
 	Gender        GenderType `json:"gender"`
@@ -38,8 +40,9 @@ type DetailUser struct {
 type FullUser struct {
 	ID            string     `json:"id"`
 	Username      string     `json:"username"`
-	Title         string     `json:"title"`
+	Password      string     `json:"password"`
 	Email         string     `json:"email"`
+	Title         string     `json:"title"`
 	Location      string     `json:"location"`
 	Gender        GenderType `json:"gender"`
 	Picture       string     `json:"picture"`
@@ -77,10 +80,10 @@ type SkillInput struct {
 }
 
 type UserInput struct {
-	ID            *string    `json:"_id,omitempty"`
-	Name          string     `json:"name"`
-	Title         string     `json:"title"`
+	Username      string     `json:"username"`
+	Password      string     `json:"password"`
 	Email         string     `json:"email"`
+	Title         string     `json:"title"`
 	Location      string     `json:"location"`
 	Gender        GenderType `json:"gender"`
 	Picture       string     `json:"picture"`

@@ -17,7 +17,6 @@ import (
 
 // CreateUser is the resolver for the createUser field.
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.Token, error) {
-
 	statement, err := r.DB.Prepare("INSERT INTO Users(Username, Password, Email, Title, Location, Gender, Picture, Company, FaveLangauge, FaveFramework, FaveTool) VALUES(?,?,?,?,?,?,?,?,?,?,?)")
 
 	if err != nil {
@@ -43,7 +42,6 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 
 // Login is the resolver for the login field.
 func (r *mutationResolver) Login(ctx context.Context, input model.Login) (*model.Token, error) {
-
 	statement, err := r.DB.Prepare("select Username, Password from Users WHERE Email = ?")
 
 	if err != nil {
@@ -78,6 +76,54 @@ func (r *mutationResolver) Login(ctx context.Context, input model.Login) (*model
 	retToken.Token = token
 
 	return &retToken, nil
+}
+
+// UpdateUser is the resolver for the updateUser field.
+func (r *mutationResolver) UpdateUser(ctx context.Context, input *model.UserInput) (*model.FullUser, error) {
+	var currentUser model.FullUser
+	currentUser, _ = r.GetUserByEmail(input.Email)
+
+	// currentUser.ID - doesn't come from query so not updated by it
+	currentUser.Username = input.Username
+	currentUser.Email = input.Email
+	currentUser.Title = input.Title
+	currentUser.Location = input.Location
+	currentUser.Gender = input.Gender
+	currentUser.Picture = input.Picture
+	currentUser.Company = input.Company
+	currentUser.FaveLangauge = input.FaveLangauge
+	currentUser.FaveFramework = input.FaveFramework
+	currentUser.FaveTool = input.FaveTool
+
+	statement, err := r.DB.Prepare("UPDATE Users SET ID = ?, Username = ?, Password = ?, Email = ?, Title = ?, Location = ?, Gender = ?, Picture = ?, Company = ?, FaveLangauge = ?, FaveFramework = ?, FaveTool = ? WHERE Email = ?")
+
+	if err != nil {
+		return nil, err
+	}
+	defer statement.Close()
+
+	hashedPassword, _ := HashPassword(input.Password)
+
+	_, err = statement.Exec(
+		currentUser.ID,
+		currentUser.Username,
+		hashedPassword,
+		currentUser.Email,
+		currentUser.Title,
+		currentUser.Location,
+		currentUser.Gender,
+		currentUser.Picture,
+		currentUser.Company,
+		currentUser.FaveLangauge,
+		currentUser.FaveFramework,
+		currentUser.FaveTool,
+		currentUser.Email)
+
+	if err != nil {
+		return nil, &model.UnableToCreateUserError{}
+	}
+
+	return &currentUser, nil
 }
 
 // RefreshToken is the resolver for the refreshToken field.
@@ -121,8 +167,22 @@ func (r *queryResolver) ReturnFull(ctx context.Context, email string) (*model.Fu
 	return &user, nil
 }
 
-// GetUserByID check if a user exists in database and return the user object.
-func (r *queryResolver) GetUsernameById(userId string) (model.FullUser, error) {
+// Mutation returns MutationResolver implementation.
+func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
+
+// Query returns QueryResolver implementation.
+func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
+
+type mutationResolver struct{ *Resolver }
+type queryResolver struct{ *Resolver }
+
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//     it when you're done.
+//   - You have helper methods in this file. Move them out to keep these resolver files clean.
+func (r *Resolver) GetUsernameById(userId string) (model.FullUser, error) {
 	statement, err := r.DB.Prepare("select Username from Users WHERE ID = ?")
 	if err != nil {
 		log.Fatal(err)
@@ -142,10 +202,8 @@ func (r *queryResolver) GetUsernameById(userId string) (model.FullUser, error) {
 
 	return model.FullUser{ID: userId, Username: username}, nil
 }
-
-// GetUserByID check if a user exists in database and return the user object.
-func (r *queryResolver) GetUserByEmail(email string) (model.FullUser, error) {
-	statement, err := r.DB.Prepare("select Username, Email, Title, Location, Gender, Picture, Company, FaveLangauge, FaveFramework, FaveTool from Users WHERE Email = ?")
+func (r *Resolver) GetUserByEmail(email string) (model.FullUser, error) {
+	statement, err := r.DB.Prepare("select ID, Username, Email, Title, Location, Gender, Picture, Company, FaveLangauge, FaveFramework, FaveTool from Users WHERE Email = ?")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -153,7 +211,7 @@ func (r *queryResolver) GetUserByEmail(email string) (model.FullUser, error) {
 	row := statement.QueryRow(email)
 
 	var user model.FullUser
-	err = row.Scan(&user.Username, &user.Email, &user.Title, &user.Location, &user.Gender, &user.Picture, &user.Company, &user.FaveLangauge, &user.FaveFramework, &user.FaveTool)
+	err = row.Scan(&user.ID, &user.Username, &user.Email, &user.Title, &user.Location, &user.Gender, &user.Picture, &user.Company, &user.FaveLangauge, &user.FaveFramework, &user.FaveTool)
 	if err != nil {
 		if err != sql.ErrNoRows {
 			log.Print(err)
@@ -163,24 +221,11 @@ func (r *queryResolver) GetUserByEmail(email string) (model.FullUser, error) {
 
 	return user, nil
 }
-
-// HashPassword hashes given password
 func HashPassword(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
 	return string(bytes), err
 }
-
-// CheckPassword hash compares raw password with it's hashed values
 func CheckPasswordHash(password, hash string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
 	return err == nil
 }
-
-// Mutation returns MutationResolver implementation.
-func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
-
-// Query returns QueryResolver implementation.
-func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
-
-type mutationResolver struct{ *Resolver }
-type queryResolver struct{ *Resolver }
